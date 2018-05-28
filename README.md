@@ -31,7 +31,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
     }
 }
 ```
-- create `/public/app.php` (where your domain should point to) with the following content:
+- create front controller `/public/app.php` (where your domain should point to) with the following content:
 ```
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
@@ -43,13 +43,13 @@ include(APP_ROOT_DIR . '/vendor/autoload.php');
 src/Config/parameters.json
 
 ```
-- create `/src/Config/parameters.json` with the following content:
+- create `/src/Config/parameters.json` which should contain sensitive data with the following content:
 ```
 {
     "environment": "dev"
 }
 ```
-- create `/src/Config/settings.json` with the following content:
+- create `/src/Config/settings.json` which should contain all other configurations with the following content:
 ```
 {
     "defaultContentType": "application/json",
@@ -89,8 +89,8 @@ src/Config/parameters.json
     }
 }
 ```
-- Wrap in `@` to inject other class to your class constructor
-- Wrap in `%` to inject parameter specified in `src/Config/parameters.json` or `src/Config/settings.json`
+- wrap in `@` to inject other class to your class constructor
+- wrap in `%` to inject parameter specified in `src/Config/parameters.json` or `src/Config/settings.json`
 - create `/src/Controller/MyController.php` with the following content:
 ```
 <?php
@@ -108,12 +108,12 @@ class MyController implements ControllerInterface
     }
 }
 ```
-- start php server in `/public` directory
+- you can start php server in `/public` directory
 ```
 cd /public
 php -S localhost:8080
 ```
-- visit in browser
+- and visit in browser
 ```
 localhost:8080/app.php/home
 ```
