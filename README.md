@@ -120,18 +120,16 @@ localhost:8080/app.php/home
 - if you want to make use of error handler change in `/src/Config/parameters.json`:
 ```json
 {
-    ...
     "environment": "prod"
 }
 ```
 - it will store logs in `/tmp/logs/php-{date}.log` file instead of throwing errors to output and display error page
 
 ### Html output
-- if you want to use `text/html` by default chenge in `/src/Config/settings.json`:
+- if you want to use `text/html` by default change in `/src/Config/settings.json`:
 ```json
 {
-   ...
-   "defaultContentType": 'text/html'
+   "defaultContentType": "text/html"
 }
 ```
 - create `/src/View/home.php` with the following content:
