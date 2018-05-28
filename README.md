@@ -162,7 +162,6 @@ echo (new TinyAppBase\Model\System\Project())->runCommand($argv[1]);
 - include in `/src/Config/dependencies.json` an entry for it:
 ```json
 {
-    ...
     "myCommand": {
         "class": "MyApp\\Model\\Command\\MyCommand",
         "inject": [
