@@ -4,7 +4,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 ### Application flow
 - application expects `APP_ROOT_DIR` to be defined as application root directory `/`
 - note that web root directory should be in `/public`
-- `src/Model/System/Project.php` should be the first class hit by app, which pulls configurations from `src/Config/*` json files
+- `src/Model/System/Project.php` should be the first class hit by app, it pulls configs from `src/Config/*` json files
 - application sets error handler and builds `src/Model/System/Request.php` using `src/Model/System/Router.php`
 - router also determines `%routedController%` and `%routedAction%` parameters
 - then first application middleware is executed specified in `src/Config/settings.json` as `applicationStartingPoint`
