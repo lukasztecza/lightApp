@@ -1,5 +1,5 @@
 <?php
-use TinyApp\Model\System\Router;
+use TinyAppBase\Model\System\Router;
 use Codeception\Example;
 
 class RouterCest
