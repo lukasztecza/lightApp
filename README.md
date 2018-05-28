@@ -18,7 +18,7 @@
 }
 ```
 - create `/public/app.php` (where domain should point to) with the following content:
-````
+```
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
 include(APP_ROOT_DIR . '/vendor/autoload.php');
@@ -46,7 +46,7 @@ src/Config/parameters.json
 ```
 [
     {
-        "path": "/",
+        "path": "/home",
         "methods": ["GET"],
         "controller": "myController",
         "action": "home"
@@ -91,5 +91,13 @@ class MyController implements ControllerInterface
         return new Response(null, ['message' => 'Hello world!'], ['message' => 'raw']);
     }
 }
-
+```
+- start php server in public directory
+```
+cd public
+php -S localhost:8080
+```
+- visit in browser
+```
+localhost:8080/app.php/home
 ```
