@@ -97,8 +97,7 @@ class Project
         if (
             !array_key_exists(self::PARAMETER_ENVIRONMENT, $parameters) ||
             !array_key_exists(self::PARAMETER_DEFAULT_CONTENT_TYPE, $parameters) ||
-            !array_key_exists(self::PARAMETER_APPLICATION_STARTING_POINT, $parameters) ||
-            !array_key_exists(self::PARAMETER_ASSETS_VERSION, $parameters)
+            !array_key_exists(self::PARAMETER_APPLICATION_STARTING_POINT, $parameters)
         ) {
             throw new \Exception(
                 'Could not find ' .
