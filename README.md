@@ -39,7 +39,7 @@ include(APP_ROOT_DIR . '/vendor/autoload.php');
 (new TinyAppBase\Model\System\Project())->run();
 ```
 - create `/.gitignore` with the following content:
-```
+```bash
 src/Config/parameters.json
 
 ```
@@ -109,17 +109,18 @@ class MyController implements ControllerInterface
 }
 ```
 - you can start php server in `/public` directory
-```
+```bash
 cd /public
 php -S localhost:8080
 ```
 - and visit in browser
-```
+```bash
 localhost:8080/app.php/home
 ```
 - if you want to make use of error handler change in `/src/Config/parameters.json`:
 ```json
 {
+    ...
     "environment": "prod"
 }
 ```
