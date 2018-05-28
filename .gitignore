@@ -1,5 +1,6 @@
 # created by composer
 vendor
+composer.lock
 
 # created by application
 tmp
