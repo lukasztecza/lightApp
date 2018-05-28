@@ -44,20 +44,20 @@ src/Config/parameters.json
 
 ```
 - create `/src/Config/parameters.json` which should contain sensitive data with the following content:
-```
+```json
 {
     "environment": "dev"
 }
 ```
 - create `/src/Config/settings.json` which should contain all other configurations with the following content:
-```
+```json
 {
     "defaultContentType": "application/json",
     "applicationStartingPoint": "simpleOutputMiddleware"
 }
 ```
 - create `/src/Config/routes.json` with the following content:
-```
+```json
 [
     {
         "path": "/home",
@@ -68,7 +68,7 @@ src/Config/parameters.json
 ]
 ```
 - create `/src/Config/dependencies.json` with the following content:
-```
+```json
 {
     "simpleOutputMiddleware": {
         "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
@@ -92,7 +92,7 @@ src/Config/parameters.json
 - wrap in `@` to inject other class to your class constructor
 - wrap in `%` to inject parameter specified in `src/Config/parameters.json` or `src/Config/settings.json`
 - create `/src/Controller/MyController.php` with the following content:
-```
+```php
 <?php
 namespace MyApp\Controller;
 
@@ -118,34 +118,39 @@ php -S localhost:8080
 localhost:8080/app.php/home
 ```
 - if you want to make use of error handler change in `/src/Config/parameters.json`:
-```
-"environment": "prod"
+```json
+{
+    "environment": "prod"
+}
 ```
 - it will store logs in `/tmp/logs/php-{date}.log` file instead of throwing errors to output and display error page
 
 ### Html output
 - if you want to use `text/html` by default chenge in `/src/Config/settings.json`:
-```
-"defaultContentType": 'text/html'
+```json
+{
+   ...
+   "defaultContentType": 'text/html'
+}
 ```
 - create `/src/View/home.php` with the following content:
-```
+```html
 <h3>
     My page
 </h3>
 <p><?php echo $message; ?></p>
 ```
 - update `/src/Controller/MyController` to return response with specified filename:
-```
+```php
 return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'html']);
 ```
 - if you do not want to change default content type you can also just set content type in the response object:
-```
+```php
 return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'html'], ['Content-Type' => 'text/html']);
 ```
 ### Running commands
 - if you want to run command line jobs create `/scripts/command.php` with the following content:
-```
+```php
 <?php
 define('APP_ROOT_DIR', str_replace('/scripts', '', __DIR__));
 include(APP_ROOT_DIR . '/vendor/autoload.php');
@@ -156,16 +161,19 @@ if (empty($argv[1])) {
 echo (new TinyAppBase\Model\System\Project())->runCommand($argv[1]);
 ```
 - include in `/src/Config/dependencies.json` an entry for it:
-```
-"myCommand": {
-    "class": "MyApp\\Model\\Command\\MyCommand",
-    "inject": [
-        "some variable"
-    ]
+```json
+{
+    ...
+    "myCommand": {
+        "class": "MyApp\\Model\\Command\\MyCommand",
+        "inject": [
+            "some variable"
+        ]
+    }
 }
 ```
 - create `/src/Model/Command/MyCommand` with the following content:
-```
+```php
 <?php
 namespace MyApp\Model\Command;
 
@@ -189,6 +197,6 @@ class MyCommand implements CommandInterface
 }
 ```
 - go to `/scripts` and run:
-```
+```bash
 php command.php myCommand
 ```
