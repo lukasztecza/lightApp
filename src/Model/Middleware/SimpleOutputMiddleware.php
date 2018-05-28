@@ -14,16 +14,13 @@ class SimpleOutputMiddleware extends MiddlewareAbstract
     private const TEMPLATES_PATH = APP_ROOT_DIR . '/src/View';
 
     private $defaultContentType;
-    private $assetsVersion;
 
     public function __construct(
         MiddlewareInterface $next,
-        string $defaultContentType,
-        string $assetsVersion
+        string $defaultContentType
     ) {
         parent::__construct($next);
         $this->defaultContentType = $defaultContentType;
-        $this->assetsVersion = $assetsVersion;
     }
 
     public function process(Request $request) : Response
@@ -98,7 +95,6 @@ class SimpleOutputMiddleware extends MiddlewareAbstract
         unset($headers);
         unset($cookies);
 
-        $assetsVersioning = '?v=' . $this->assetsVersion;
         include(self::TEMPLATES_PATH . '/' . $template);
     }
 }

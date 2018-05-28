@@ -1,11 +1,30 @@
 ### How to use
 - include using composer
-- create `/public/app.php` (where domain should point to) with the following content:
 ```
+{
+    "name": "myRepo/myApp",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lukasztecza/tinyAppBase"
+       }
+    ],
+    "require": {
+        "lukasztecza/tinyAppBase": "dev-master"
+    }
+}
+```
+- create `/public/app.php` (where domain should point to) with the following content:
+````
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
 include(APP_ROOT_DIR . '/vendor/autoload.php');
 (new TinyAppBase\Model\System\Project())->run();
+```
+- create `/.gitignore` with the following content:
+```
+src/Config/parameters.json
+
 ```
 - create `/src/Config/parameters.json` with the following content:
 ```
@@ -34,7 +53,21 @@ include(APP_ROOT_DIR . '/vendor/autoload.php');
 - create `/src/Config/dependencies.json` with the following content:
 ```
 {
-    "fileController": {
+    "simpleOutputMiddleware": {
+        "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
+        "inject": [
+            "@controllerMiddleware@",
+            "%defaultContentType%"
+        ]
+    },
+    "controllerMiddleware": {
+        "class": "TinyAppBase\\Model\\Middleware\\ControllerMiddleware",
+        "inject": [
+            "%routedController%",
+            "%routedAction%"
+        ]
+    },
+    "myController": {
         "class": "MyApp\\Controller\\MyController"
     }
 }

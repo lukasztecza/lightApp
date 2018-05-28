@@ -13,7 +13,6 @@ class Project
     private const PARAMETER_ENVIRONMENT = 'environment';
     private const PARAMETER_DEFAULT_CONTENT_TYPE = 'defaultContentType';
     private const PARAMETER_APPLICATION_STARTING_POINT = 'applicationStartingPoint';
-    private const PARAMETER_ASSETS_VERSION = 'assetsVersion';
 
     private const ROUTED_CONTROLLER_PLACEHOLDER = '%routedController%';
     private const ROUTED_ACTION_PLACEHOLDER = '%routedAction%';
@@ -105,9 +104,8 @@ class Project
                 'Could not find ' .
                 self::PARAMETER_ENVIRONMENT . ' placeholder or ' .
                 self::PARAMETER_DEFAULT_CONTENT_TYPE . ' placeholder or ' .
-                self::PARAMETER_APPLICATION_STARTING_POINT . ' placeholder or ' .
-                self::PARAMETER_ASSETS_VERSION . ' placeholder in parameters.json or settings.json,' .
-                ' make sure you set these values'
+                self::PARAMETER_APPLICATION_STARTING_POINT . ' placeholder ' .
+                ' in parameters.json or settings.json, make sure you set these values'
             );
         }
     }
