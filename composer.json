@@ -1,0 +1,22 @@
+{
+    "name": "lukasztecza/tinyAppBase",
+    "description": "Tiny php application base",
+    "keywords": ["php", "app", "framework", "base", "dependency"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lukasz Tecza",
+            "email": "lukasztecza.pl@gmail.com",
+            "homepage": "http://lukasztecza.pl"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "codeception/codeception": "2.3.*"
+    },
+    "autoload": {
+        "psr-4": { "TinyAppBase\\": "src/" }
+    }
+}
