@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace TinyAppBase\Model\Middleware;
 
 use TinyAppBase\Model\Middleware\MiddlewareInterface;
