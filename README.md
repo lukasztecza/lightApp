@@ -13,7 +13,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 - this class should be specified in `src/Config/dependencies.json`
 
 ### Basic usege
-- include using composer
+- assuming that your app is `myRepo/myApp` then include using composer:
 ```
 {
     "name": "myRepo/myApp",
@@ -31,7 +31,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
     }
 }
 ```
-- create `/public/app.php` (where domain should point to) with the following content:
+- create `/public/app.php` (where your domain should point to) with the following content:
 ```
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
@@ -108,9 +108,9 @@ class MyController implements ControllerInterface
     }
 }
 ```
-- start php server in public directory
+- start php server in `/public` directory
 ```
-cd public
+cd /public
 php -S localhost:8080
 ```
 - visit in browser
