@@ -14,7 +14,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 
 ### Basic usage
 - assuming that your app is `myRepo/myApp` then include using composer:
-```
+```json
 {
     "name": "myRepo/myApp",
     "repositories": [
@@ -32,7 +32,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 }
 ```
 - create front controller `/public/app.php` (where your domain should point to) with the following content:
-```
+```php
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
 include(APP_ROOT_DIR . '/vendor/autoload.php');
