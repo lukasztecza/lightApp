@@ -12,7 +12,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 - then first application middleware is executed named in `src/Config/settings.json` as `applicationStartingPoint`
 - this class should be specified in `src/Config/dependencies.json`
 
-### Basic usege
+### Basic usage
 - assuming that your app is `myRepo/myApp` then include using composer:
 ```
 {
