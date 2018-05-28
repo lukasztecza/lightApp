@@ -11,6 +11,9 @@
     ],
     "require": {
         "lukasztecza/tinyAppBase": "dev-master"
+    },
+    "autoload": {
+        "psr-4": { "MyApp\\": "src/" }
     }
 }
 ```
@@ -77,14 +80,15 @@ src/Config/parameters.json
 <?php
 namespace MyApp\Controller;
 
+use TinyAppBase\Controller\ControllerInterface;
 use TinyAppBase\Model\System\Request;
 use TinyAppBase\Model\System\Response;
 
-class MyController
+class MyController implements ControllerInterface
 {
     public function home(Request $request) : Response
     {
-        return new Response(['message' => 'Hello world!'])
+        return new Response(null, ['message' => 'Hello world!'], ['message' => 'raw']);
     }
 }
 
