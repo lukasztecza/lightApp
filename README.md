@@ -1,4 +1,4 @@
-### How to use
+### Basic usege
 - include using composer
 ```
 {
@@ -100,4 +100,30 @@ php -S localhost:8080
 - visit in browser
 ```
 localhost:8080/app.php/home
+```
+- if you want to make use of error handler change in `/src/Config/parameters.json`:
+```
+"environment": "prod"
+```
+* it will store logs in `/tmp/logs/php-{date}.log` file instead of throwing errors to output and display error page
+
+#### Html output
+- if you want to use `text/html` by default chenge in `/src/Config/settings.json`:
+```
+"defaultContentType": 'text/html'
+```
+- create `/src/View/home.php` with the following content:
+```
+<h3>
+    My page
+</h3>
+<p><?php echo $message; ?></p>
+```
+- update `/src/Controller/MyController` to return response with specified filename:
+```
+return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'html']);
+```
+- if you do not want to change default content type you can also just set content type in the response object:
+```
+return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'html'], ['Content-Type' => 'text/html']);
 ```
