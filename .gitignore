@@ -1,0 +1,18 @@
+# created by composer
+vendor
+
+# created by application
+tmp
+
+# created by codeception
+tests/*
+codeception.yml
+
+# application test classes
+!tests/acceptance/
+!tests/functional/
+!tests/unit/
+!tests/acceptance.suite.yml
+!tests/unit.suite.yml
+!tests/functional.suite.yml
+!tests/_support/Helper/
