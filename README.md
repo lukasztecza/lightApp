@@ -9,7 +9,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 - application sets error handler `TinyAppBase\Model\System\ErrorHandler`
 - and builds `TinyAppBase\Model\System\Request` using `TinyAppBase\Model\System\Router`
 - router determines `%routedController%` and `%routedAction%` parameters
-- then first application middleware is executed named in `src/Config/settings.json` as `applicationStartingPoint`
+- then first application middleware is executed named in `/src/Config/settings.json` as `applicationStartingPoint`
 - this class should be specified in `src/Config/dependencies.json`
 
 ### Basic usage
@@ -239,4 +239,198 @@ Options -Indexes
         RedirectMatch 302 ^/$ /app.php/
     </IfModule>
 </IfModule>
+```
+### Restricting routes
+- add securityMiddleware and modify simpleOutputMiddleware to set it as next (first injection) in `/src/Config/dependencies.json`:
+```
+{
+    "simpleOutputMiddleware": {
+        "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
+        "inject": [
+            "@securityMiddleware@",
+            "%defaultContentType%"
+        ]
+    },
+    "securityMiddleware": {
+        "class": "TinyAppBase\\Model\\Middleware\\SecurityMiddleware",
+        "inject": [
+            "@controllerMiddleware@",
+            "%securityList%",
+            "@sessionService@"
+        ]
+    }
+}
+```
+- add in `/src/Config/settings.json`: 
+```json
+{
+    "securityList": [
+        {
+            "route": "/restricted",
+            "methods": ["GET"],
+            "allow": ["ROLE_USER"]
+        }
+    ]
+}
+```
+- assign this route to a controller updating `/src/Config/routes/json`
+```json
+{
+    "path": "/restricted",
+    "methods": ["GET"],
+    "controller": "myController",
+    "action": "restricted"
+}
+```
+- add corresponding method in `/src/Controller/MyController.php`:
+```php
+public function restricted(Request $request) : Response
+{
+    return new Response(null, ['message' => 'Restricted!'], ['message' => 'raw'], ['Content-Type' => 'application/json']);
+}
+
+```
+- if user without `ROLE_USER` tries to navigate to `/restricted` then he will be redirected to `/login` so add in `/src/Config/routes/json`:
+```json
+[
+    {
+        "path": "/login",
+        "methods": ["GET", "POST"],
+        "controller": "authenticationController",
+        "action": "login"
+    },
+    {
+        "path": "/logout",
+        "methods": ["GET"],
+        "controller": "authenticationController",
+        "action": "logout"
+    }
+]
+```
+- specify this controller along with session service and validator factory in `/src/Config/dependencies.json`:
+```json
+{
+    "authenticationController": {
+        "class": "TinyAppBase\\Controller\\AuthenticationController",
+        "inject": [
+            "@sessionService@",
+            "@validatorFactory@",
+            "%inMemoryUsername%",
+            "%inMemoryPasswordHash%"
+        ]
+    },
+    "sessionService": {
+        "class": "TinyAppBase\\Model\\Service\\SessionService"
+    },
+    "validatorFactory": {
+        "class": "TinyAppBase\\Model\\Validator\\ValidatorFactory",
+        "inject": [
+            "@sessionService@"
+        ]
+    }
+}
+```
+- specify username and password in `/src/Config/parameters.json`:
+```
+{
+    "inMemoryUsername": "user",
+    "inMemoryPasswordHash": "$2y$12$mHx7zh06OUGvBrOaoaTgsesPZrGcNbPXQLgea4P865hMOW7LOOwN2"
+}
+```
+- create `/src/Controller/AuthenticationController.php` with the following content:
+```php
+<?php
+namespace TinyAppBase\Controller;
+
+use TinyAppBase\Controller\ControllerInterface;
+use TinyAppBase\Model\Service\SessionService;
+use TinyAppBase\Model\Validator\ValidatorFactory;
+use TinyAppBase\Model\Validator\LoginValidator;
+use TinyAppBase\Model\System\Request;
+use TinyAppBase\Model\System\Response;
+
+class AuthenticationController implements ControllerInterface
+{
+    private $sessionService;
+    private $validatorFactory;
+    private $inMemoryUsername;
+    private $inMemoryPasswordHash;
+
+    public function __construct(
+        SessionService $sessionService,
+        ValidatorFactory $validatorFactory,
+        string $inMemoryUsername,
+        string $inMemoryPasswordHash
+    ) {
+        $this->sessionService = $sessionService;
+        $this->validatorFactory = $validatorFactory;
+        $this->inMemoryUsername = $inMemoryUsername;
+        $this->inMemoryPasswordHash = $inMemoryPasswordHash;
+    }
+
+    public function login(Request $request) : Response
+    {
+        if (!empty($this->sessionService->get(['user'])['user'])) {
+            return new Response(null, [], [], ['Location' => '/home']);
+        }
+
+        $validator = $this->validatorFactory->create(LoginValidator::class);
+        if ($request->getMethod() === 'POST') {
+            if ($validator->check($request)) {
+                $payload = $request->getPayload(['username', 'password']);
+                if (
+                    $this->inMemoryUsername === $payload['username'] &&
+                    password_verify($payload['password'], $this->inMemoryPasswordHash)
+                ) {
+                    $this->sessionService->set(['roles' => ['ROLE_USER']]);
+                    $this->sessionService->set(['user' => $payload['username']]);
+
+                    return new Response(null, [], [], [
+                        'Location' => ($this->sessionService->get(['previousNotAllowedPath'], true)['previousNotAllowedPath'] ?? '/home')
+                    ]);
+                }
+                $error = 'Invalid credentials';
+            }
+        }
+
+        return new Response(
+            'authentication/loginForm.php',
+            ['error' => $error ?? $validator->getError(), 'csrfToken' => $validator->getCsrfToken()],
+            ['error' => 'html']
+        );
+    }
+
+    public function logout(Request $request) : Response
+    {
+        // Logout user
+        $this->sessionService->set(['roles' => null]);
+        $this->sessionService->set(['user' => null]);
+        $this->sessionService->destroy();
+
+        return new Response(null, [], [], ['Location' => '/home']);
+    }
+}
+```
+- create `/src/Model/Validator/LoginValidator.php` with the following content:
+```php
+<?php
+namespace TinyAppBase\Model\Validator;
+
+use TinyAppBase\Model\System\Request;
+use TinyAppBase\Model\Validator\RequestValidatorAbstract;
+
+class LoginValidator extends RequestValidatorAbstract
+{
+    public function validate(Request $request) : bool
+    {
+        $payload = $request->getPayload(['username', 'password']);
+        if (empty($payload['username']) || empty($payload['password'])) {
+            $this->error = 'Fields username and password can not be empty';
+
+            return false;
+        }
+
+        return true;
+    }
+}
 ```
