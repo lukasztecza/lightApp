@@ -6,20 +6,6 @@ class ResponseCest
 {
     public $response;
 
-    private function callNonPublic($object, string $method, array $params)
-    {
-        return (function () use ($object, $method, $params) {
-            return call_user_func_array([$object, $method], $params);
-        })->bindTo($object, $object)();
-    }
-
-    private function callNonPublicByRefetence($object, string $method, &$param)
-    {
-        (function () use ($object, $method, &$param) {
-            $object->$method($param);
-        })->bindTo($object, $object)();
-    }
-
     public function _before()
     {
         $this->response = new Response(
@@ -49,7 +35,7 @@ class ResponseCest
     public function fileEscapeValueTest(UnitTester $I, Example $example)
     {
         $value = $example[0];
-        $result = $this->callNonPublicByRefetence($this->response, 'fileEscapeValue', $value);
+        $result = $I->callNonPublic($this->response, 'fileEscapeValue', [&$value]);
         $I->assertEquals($example[1], $value);
     }
 
@@ -68,7 +54,7 @@ class ResponseCest
     public function urlEscapeValueTest(UnitTester $I, Example $example)
     {
         $value = $example[0];
-        $result = $this->callNonPublicByRefetence($this->response, 'urlEscapeValue', $value);
+        $result = $I->callNonPublic($this->response, 'urlEscapeValue', [&$value]);
         $I->assertEquals($example[1], $value);
     }
 
@@ -85,7 +71,7 @@ class ResponseCest
     public function htmlEscapeValueTest(UnitTester $I, Example $example)
     {
         $value = $example[0];
-        $result = $this->callNonPublicByRefetence($this->response, 'htmlEscapeValue', $value);
+        $result = $I->callNonPublic($this->response, 'htmlEscapeValue', [&$value]);
         $I->assertEquals($example[1], $value);
     }
 
@@ -104,7 +90,7 @@ class ResponseCest
     public function sanitizeValueTest(UnitTester $I, Example $example)
     {
         $value = $example[0];
-        $result = $this->callNonPublicByRefetence($this->response, 'sanitizeValue', $value);
+        $result = $I->callNonPublic($this->response, 'sanitizeValue', [&$value]);
         $I->assertEquals($example[1], $value);
     }
 
@@ -118,7 +104,6 @@ class ResponseCest
 
     public function getVariablesTest()
     {
-        $this->response;
+        $this->response;//@TODO
     }
-
 }

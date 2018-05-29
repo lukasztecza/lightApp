@@ -6,13 +6,6 @@ class RouterCest
 {
     public $router;
 
-    private function callNonPublic($object, string $method, array $params)
-    {
-        return (function () use ($object, $method, $params) {
-            return call_user_func_array([$object, $method], $params);
-        })->bindTo($object, $object)();
-    }
-
     public function _before()
     {
         $this->router = new Router([
@@ -52,7 +45,7 @@ class RouterCest
      */
     public function getRouteAttributesSuccess(UnitTester $I, Example $example)
     {
-        $result = $this->callNonPublic($this->router, 'getRouteAttributes', [$example[0], $example[1]]);
+        $result = $I->callNonPublic($this->router, 'getRouteAttributes', [$example[0], $example[1]]);
         $I->assertEquals($example[2], $result);
     }
 
@@ -70,7 +63,7 @@ class RouterCest
      */
     public function getMatchingRouteSuccess(UnitTester $I, Example $example)
     {
-        $result = $this->callNonPublic($this->router, 'getMatchingRoute', [$example[0], $example[1]]);
+        $result = $I->callNonPublic($this->router, 'getMatchingRoute', [$example[0], $example[1]]);
         $I->assertEquals($example[2], $result);
     }
 
@@ -90,8 +83,8 @@ class RouterCest
     {
         $I->expectException(
             new Exception('No route found for path ' . var_export($example[0], true), 404),
-            function () use ($example) {
-                $this->callNonPublic($this->router, 'getMatchingRoute', [$example[0], $example[1]]);
+            function () use ($I, $example) {
+                $I->callNonPublic($this->router, 'getMatchingRoute', [$example[0], $example[1]]);
             }
         );
     }
