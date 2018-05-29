@@ -200,7 +200,7 @@ php command.php myCommand
 ```
 ### Running with apache
 - if you have set apache you may find this `/public/.htaccess` content useful:
-```
+```htaccess
 # Do not allow to index directory
 Options -Indexes
 
