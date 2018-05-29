@@ -448,5 +448,5 @@ class LoginValidator extends RequestValidatorAbstract
 </form>
 ```
 - now if you navigate to `localhost:8080/restricted` you will be redirected to `localhost:8080/login`
-- form submissions will be validated by checking origin and csrf token and by executing `validate` in `/src/Model/Validator/LoginValidator`
+- form submissions are by default validated by checking origin and csrf token before calling `validate`
 - navigate to `localhost:8080/logout` to logout
