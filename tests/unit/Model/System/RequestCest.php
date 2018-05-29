@@ -6,13 +6,6 @@ class RequestCest
 {
     public $request;
 
-    private function callNonPublic($object, string $method, array $params)
-    {
-        return (function () use ($object, $method, $params) {
-            return call_user_func_array([$object, $method], $params);
-        })->bindTo($object, $object)();
-    }
-
     public function _before()
     {
         $this->request = new Request(
@@ -54,7 +47,7 @@ class RequestCest
      */
     public function getFromArrayTest(UnitTester $I, Example $example)
     {
-        $result = $this->callNonPublic($this->request, 'getFromArray', [$example[0], $example[1]]);
+        $result = $I->callNonPublic($this->request, 'getFromArray', [$example[0], $example[1]]);
         $I->assertEquals($example[2], $result);
     }
 
