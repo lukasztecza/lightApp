@@ -111,11 +111,11 @@ class MyController implements ControllerInterface
 - you can start php server in `/public` directory
 ```bash
 cd /public
-php -S localhost:8080
+php -S localhost:8080 app.php
 ```
 - and visit in browser
 ```bash
-localhost:8080/app.php/home
+localhost:8080/home
 ```
 - if you want to make use of error handler change in `/src/Config/parameters.json`:
 ```json
@@ -242,7 +242,7 @@ Options -Indexes
 ```
 ### Restricting routes
 - add securityMiddleware and modify simpleOutputMiddleware to set it as next (first injection) in `/src/Config/dependencies.json`:
-```
+```json
 {
     "simpleOutputMiddleware": {
         "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
@@ -275,12 +275,14 @@ Options -Indexes
 ```
 - assign this route to a controller updating `/src/Config/routes/json`
 ```json
-{
-    "path": "/restricted",
-    "methods": ["GET"],
-    "controller": "myController",
-    "action": "restricted"
-}
+[
+    {
+        "path": "/restricted",
+        "methods": ["GET"],
+        "controller": "myController",
+        "action": "restricted"
+    }
+]
 ```
 - add corresponding method in `/src/Controller/MyController.php`:
 ```php
@@ -290,7 +292,8 @@ public function restricted(Request $request) : Response
 }
 
 ```
-- if user without `ROLE_USER` tries to navigate to `/restricted` then he will be redirected to `/login` so add in `/src/Config/routes/json`:
+- user without `ROLE_USER` can not access `localhost:8080/restricted` and will be redirected to `localhost:8080/login`
+- add in `/src/Config/routes/json` login and logout routes:
 ```json
 [
     {
@@ -311,7 +314,7 @@ public function restricted(Request $request) : Response
 ```json
 {
     "authenticationController": {
-        "class": "TinyAppBase\\Controller\\AuthenticationController",
+        "class": "MyApp\\Controller\\AuthenticationController",
         "inject": [
             "@sessionService@",
             "@validatorFactory@",
@@ -330,8 +333,8 @@ public function restricted(Request $request) : Response
     }
 }
 ```
-- specify username and password in `/src/Config/parameters.json`:
-```
+- specify username and password in `/src/Config/parameters.json` (password is `pass`):
+```json
 {
     "inMemoryUsername": "user",
     "inMemoryPasswordHash": "$2y$12$mHx7zh06OUGvBrOaoaTgsesPZrGcNbPXQLgea4P865hMOW7LOOwN2"
@@ -340,14 +343,14 @@ public function restricted(Request $request) : Response
 - create `/src/Controller/AuthenticationController.php` with the following content:
 ```php
 <?php
-namespace TinyAppBase\Controller;
+namespace MyApp\Controller;
 
 use TinyAppBase\Controller\ControllerInterface;
 use TinyAppBase\Model\Service\SessionService;
 use TinyAppBase\Model\Validator\ValidatorFactory;
-use TinyAppBase\Model\Validator\LoginValidator;
 use TinyAppBase\Model\System\Request;
 use TinyAppBase\Model\System\Response;
+use MyApp\Model\Validator\LoginValidator;
 
 class AuthenticationController implements ControllerInterface
 {
@@ -402,7 +405,6 @@ class AuthenticationController implements ControllerInterface
 
     public function logout(Request $request) : Response
     {
-        // Logout user
         $this->sessionService->set(['roles' => null]);
         $this->sessionService->set(['user' => null]);
         $this->sessionService->destroy();
@@ -414,7 +416,7 @@ class AuthenticationController implements ControllerInterface
 - create `/src/Model/Validator/LoginValidator.php` with the following content:
 ```php
 <?php
-namespace TinyAppBase\Model\Validator;
+namespace MyApp\Model\Validator;
 
 use TinyAppBase\Model\System\Request;
 use TinyAppBase\Model\Validator\RequestValidatorAbstract;
@@ -434,3 +436,17 @@ class LoginValidator extends RequestValidatorAbstract
     }
 }
 ```
+- create template `/src/View/authentication/loginForm.php` with the following content:
+```html
+<h3>Login form</h3>
+<p class="error"><?php echo $error; ?></p>
+<form method="post">
+    <input type="text" name="username" /><br />
+    <input type="password" name="password" /><br />
+    <input type="hidden" name="csrfToken" value="<?php echo $csrfToken; ?>" /><br />
+    <input type="submit" />
+</form>
+```
+- now if you navigate to `localhost:8080/restricted` you will be redirected to `localhost:8080/login`
+- form submissions will be validated by checking origin and csrf token and by executing `validate` in `/src/Model/Validator/LoginValidator`
+- navigate to `localhost:8080/logout` to logout
