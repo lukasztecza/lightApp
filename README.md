@@ -261,7 +261,7 @@ Options -Indexes
     }
 }
 ```
-- add in `/src/Config/settings.json`: 
+- add in `/src/Config/settings.json`:
 ```json
 {
     "securityList": [
