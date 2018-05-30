@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Service;
+namespace LightApp\Model\Service;
 
 class SessionService
 {

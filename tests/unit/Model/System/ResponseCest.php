@@ -1,5 +1,5 @@
 <?php
-use TinyAppBase\Model\System\Response;
+use LightApp\Model\System\Response;
 use Codeception\Example;
 
 class ResponseCest

@@ -1,5 +1,5 @@
 <?php
-use TinyAppBase\Model\System\Request;
+use LightApp\Model\System\Request;
 use Codeception\Example;
 
 class RequestCest

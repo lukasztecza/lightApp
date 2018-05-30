@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Controller;
+namespace LightApp\Controller;
 
 interface ControllerInterface
 {

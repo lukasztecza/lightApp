@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\System;
+namespace LightApp\Model\System;
 
-use TinyAppBase\Model\System\ErrorHandler;
-use TinyAppBase\Model\System\Router;
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\System\Response;
-use TinyAppBase\Model\Middleware\MiddlewareInterface;
-use TinyAppBase\Model\Command\CommandInterface;
+use LightApp\Model\System\ErrorHandler;
+use LightApp\Model\System\Router;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
+use LightApp\Model\Middleware\MiddlewareInterface;
+use LightApp\Model\Command\CommandInterface;
 
 class Project
 {

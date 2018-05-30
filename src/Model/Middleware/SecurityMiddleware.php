@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Middleware;
+namespace LightApp\Model\Middleware;
 
-use TinyAppBase\Model\Service\SessionService;
-use TinyAppBase\Controller\ControllerInterface;
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\System\Response;
-use TinyAppBase\Model\Middleware\MiddlewareAbstract;
-use TinyAppBase\Model\Middleware\MiddlewareInterface;
+use LightApp\Model\Service\SessionService;
+use LightApp\Controller\ControllerInterface;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
+use LightApp\Model\Middleware\MiddlewareAbstract;
+use LightApp\Model\Middleware\MiddlewareInterface;
 
 class SecurityMiddleware extends MiddlewareAbstract
 {

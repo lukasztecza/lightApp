@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\System;
+namespace LightApp\Model\System;
 
-use TinyAppBase\Model\System\Request;
+use LightApp\Model\System\Request;
 
 class Router
 {

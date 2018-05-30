@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Middleware;
+namespace LightApp\Model\Middleware;
 
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\System\Response;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
 
 interface MiddlewareInterface
 {
