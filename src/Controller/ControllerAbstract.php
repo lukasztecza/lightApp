@@ -12,7 +12,7 @@ abstract class ControllerAbstract
 
     }
 
-    protected function htmlResponse(string $file, array $variables [], array $escapeRules = []) : Response
+    protected function htmlResponse(string $file, array $variables = [], array $escapeRules = []) : Response
     {
         return new Response($file, $variables, $escapeRules, ['Content-Type' => 'text/html']);
     }
