@@ -155,6 +155,22 @@ redirectResponse
 codeResponse
 ```
 - responses are by default sanitized to alphanumeric characters but you can force excape or raw output
+- for instance for array:
+```php
+$arr = [
+    'foo' => [
+        'one', 'two', 'three'
+    ],
+    'bar' => '<p>Welcome</p>'
+];
+```
+- you can specify following escapre rules
+```php
+$escape = [
+    'foo' => 'raw', //all child nodes will inherit this rule
+    'bar' => 'html'
+];
+```
 
 ### Running commands
 - if you want to run command line jobs create `/scripts/command.php` with the following content:
