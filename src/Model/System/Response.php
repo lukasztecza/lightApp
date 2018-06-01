@@ -71,8 +71,8 @@ class Response
         foreach ($array as $key => &$value) {
             $this->handleCounter($counter);
 
-            $originalKey = $key;
-            $this->sanitizeValue($key);
+            $originalKey = (string) $key;
+            $this->sanitizeValue((string) $key);
             if ($key !== (string)$originalKey) {
                 unset($array[$originalKey]);
                 if (!empty($key)) {
