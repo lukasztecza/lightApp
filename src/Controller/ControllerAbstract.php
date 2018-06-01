@@ -17,14 +17,63 @@ abstract class ControllerAbstract
         return new Response($file, $variables, $escapeRules, ['Content-Type' => 'text/html']);
     }
 
-    protected function codeResponse(int $code, Request $request, array $variables = [], array $escapeRules = []) : Response
+    protected function redirectResponse(string $location) : Response
     {
-        $message = ' ';
+        return new Response(null, [], [], [    'Location' => $string]);
+    }
+
+    protected function codeResponse(Request $request, int $code, string $contentType = null) : Response
+    {
+        $message = '';
         switch ($code) {
+            case 200:
+                $message .= ' Ok';
+                break;
+            case 201:
+                $message .= ' Created';
+                break;
+            case 204:
+                $message .= ' No Content';
+                break;
+            case 207:
+                $message .= ' Multi Status';
+                break;
+            case 301:
+                $message .= ' Moved Permanently';
+                break;
+            case 302:
+                $message .= ' Found';
+                break;
+            case 400:
+                $message .= ' Bad Request';
+                break;
+            case 401:
+                $message .= ' Unauthorized';
+                break;
+            case 403:
+                $message .= ' Forbidden';
+                break;
             case 404:
-                $message .= 'Not found';
+                $message .= ' Not Found';
+                break;
+            case 409:
+                $message .= ' Conflict';
+                break;
+            default:
+                $code = 500;
+                $message .= ' Internal Server Error';
                 break;
         }
-        return new Response('errorCode.php', [], [], [$request->getServerProtocol() . ' ' . $code . $message]);
+        $headers = [$request->getServerProtocol() . ' ' . $code . $message];
+        if ($contentType) {
+            $headers['Content-Type'] = $contentType;
+        }
+
+        return new Response(
+            ($contentType === 'text/html' ? 'errorCode.php' : null),
+            [],
+            [],
+            $headers
+        );
     }
 }
