@@ -68,12 +68,12 @@ class Response
 
     private function escapeArray(int $counter, array &$array, string $keyString) : void
     {
-        foreach ($array as $key => &$value) {
+        foreach ($array as (string) $key => &$value) {
             $this->handleCounter($counter);
 
-            $originalKey = (string) $key;
-            $this->sanitizeValue((string) $key);
-            if ($key !== (string)$originalKey) {
+            $originalKey = $key;
+            $this->sanitizeValue($key);
+            if ($key !== $originalKey) {
                 unset($array[$originalKey]);
                 if (!empty($key)) {
                     $array[$key] = $value;
