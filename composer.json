@@ -1,6 +1,6 @@
 {
     "name": "lukasztecza/tinyAppBase",
-    "description": "Tiny php application base",
+    "description": "Light php application base",
     "keywords": ["php", "app", "framework", "base", "dependency"],
     "license": "MIT",
     "authors": [
@@ -17,6 +17,6 @@
         "codeception/codeception": "2.3.*"
     },
     "autoload": {
-        "psr-4": { "TinyAppBase\\": "src/" }
+        "psr-4": { "LightApp\\": "src/" }
     }
 }

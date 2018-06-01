@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Validator;
+namespace LightApp\Model\Validator;
 
-use TinyAppBase\Model\Validator\ValidatorInterface;
-use TinyAppBase\Model\Validator\ValidatorAbstract;
-use TinyAppBase\Model\Validator\ArrayValidatorInterface;
+use LightApp\Model\Validator\ValidatorAbstract;
+use LightApp\Model\Validator\ArrayValidatorInterface;
 
 abstract class ArrayValidatorAbstract extends ValidatorAbstract implements ArrayValidatorInterface
 {

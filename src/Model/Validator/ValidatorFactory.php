@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Validator;
+namespace LightApp\Model\Validator;
 
-use TinyAppBase\Model\Validator\ValidatorInterface;
-use TinyAppBase\Model\Validator\ArrayValidatorInterface;
-use TinyAppBase\Model\Validator\RequestValidatorInterface;
-use TinyAppBase\Model\Service\SessionService;
+use LightApp\Model\Service\SessionService;
+use LightApp\Model\Validator\ValidatorInterface;
+use LightApp\Model\Validator\RequestValidatorInterface;
+use LightApp\Model\Validator\ArrayValidatorInterface;
 
 class ValidatorFactory
 {

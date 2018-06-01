@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Command;
+namespace LightApp\Model\Command;
 
-use TinyAppBase\Model\Command\CommandResult;
+use LightApp\Model\Command\CommandResult;
 
 interface CommandInterface
 {

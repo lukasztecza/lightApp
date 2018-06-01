@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\System;
+namespace LightApp\Model\System;
 
 class ErrorHandler
 {

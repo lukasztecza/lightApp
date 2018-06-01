@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Validator;
+namespace LightApp\Model\Validator;
 
-use TinyAppBase\Model\System\Request;
+use LightApp\Model\System\Request;
 
 interface RequestValidatorInterface
 {

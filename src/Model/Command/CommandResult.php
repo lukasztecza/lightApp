@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Command;
+namespace LightApp\Model\Command;
 
 class CommandResult
 {

@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
-namespace TinyAppBase\Model\Validator;
+namespace LightApp\Model\Validator;
 
-use TinyAppBase\Model\Validator\ValidatorInterface;
-use TinyAppBase\Model\Validator\ValidatorAbstract;
-use TinyAppBase\Model\Validator\RequestValidatorInterface;
-use TinyAppBase\Model\System\Request;
+use LightApp\Model\Validator\ValidatorAbstract;
+use LightApp\Model\Validator\RequestValidatorInterface;
+use LightApp\Model\System\Request;
 
 abstract class RequestValidatorAbstract extends ValidatorAbstract implements RequestValidatorInterface
 {

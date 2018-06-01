@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace TinyApp\Model\Repository;
 
-use TinyAppBase\Model\Repository\DatabaseConnectionInterface;
+use LightApp\Model\Repository\DatabaseConnectionInterface;
 
 class PdoDatabaseConnection implements DatabaseConnectionInterface
 {
