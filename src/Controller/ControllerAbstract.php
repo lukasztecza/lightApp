@@ -9,7 +9,6 @@ abstract class ControllerAbstract
     protected function jsonResponse(array $variables, array $escapeRules = []) : Response
     {
         return new Response(null, $variables, $escapeRules, ['Content-Type' => 'application/json']);
-
     }
 
     protected function htmlResponse(string $file, array $variables = [], array $escapeRules = []) : Response
@@ -19,7 +18,7 @@ abstract class ControllerAbstract
 
     protected function redirectResponse(string $location) : Response
     {
-        return new Response(null, [], [], [    'Location' => $string]);
+        return new Response(null, [], [], ['Location' => $string]);
     }
 
     protected function codeResponse(Request $request, int $code, string $contentType = null) : Response

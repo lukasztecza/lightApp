@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace LightApp\Model\Validator;
 
-use LightApp\Model\Validator\ValidatorInterface;
-use LightApp\Model\Validator\ArrayValidatorInterface;
-use LightApp\Model\Validator\RequestValidatorInterface;
 use LightApp\Model\Service\SessionService;
+use LightApp\Model\Validator\ValidatorInterface;
+use LightApp\Model\Validator\RequestValidatorInterface;
+use LightApp\Model\Validator\ArrayValidatorInterface;
 
 class ValidatorFactory
 {

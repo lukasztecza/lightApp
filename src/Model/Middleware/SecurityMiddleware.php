@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 namespace LightApp\Model\Middleware;
 
-use LightApp\Model\Service\SessionService;
-use LightApp\Controller\ControllerInterface;
-use LightApp\Model\System\Request;
-use LightApp\Model\System\Response;
 use LightApp\Model\Middleware\MiddlewareAbstract;
 use LightApp\Model\Middleware\MiddlewareInterface;
+use LightApp\Model\Service\SessionService;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
 
 class SecurityMiddleware extends MiddlewareAbstract
 {

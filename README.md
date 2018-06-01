@@ -1,13 +1,13 @@
-# tinyAppBase
+# lightApp
 Minimal application skeleton based on middleware, dependancy injection and model-view-controller patterns.
 
 ### Application flow
 - application expects `APP_ROOT_DIR` to be defined as application root directory `/`
 - note that web root directory should be in `/public`
-- `TinyAppBase\Model\System\Project` should be the first class hit by app
+- `LightApp\Model\System\Project` should be the first class hit by app
 - it will pull configurations from `src/Config/*` json files
-- application sets error handler `TinyAppBase\Model\System\ErrorHandler`
-- and builds `TinyAppBase\Model\System\Request` using `TinyAppBase\Model\System\Router`
+- application sets error handler `LightApp\Model\System\ErrorHandler`
+- and builds `LightApp\Model\System\Request` using `LightApp\Model\System\Router`
 - router determines `%routedController%` and `%routedAction%` parameters
 - then first application middleware is executed named in `/src/Config/settings.json` as `applicationStartingPoint`
 - this class should be specified in `src/Config/dependencies.json`
@@ -20,11 +20,11 @@ Minimal application skeleton based on middleware, dependancy injection and model
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/lukasztecza/tinyAppBase"
+            "url": "https://github.com/lukasztecza/lightApp"
        }
     ],
     "require": {
-        "lukasztecza/tinyAppBase": "dev-master"
+        "lukasztecza/lightApp": "dev-master"
     },
     "autoload": {
         "psr-4": { "MyApp\\": "src/" }
@@ -36,7 +36,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
 <?php
 define('APP_ROOT_DIR', str_replace('/public', '', __DIR__));
 include(APP_ROOT_DIR . '/vendor/autoload.php');
-(new TinyAppBase\Model\System\Project())->run();
+(new LightApp\Model\System\Project())->run();
 ```
 - create `/.gitignore` with the following content:
 ```bash
@@ -71,14 +71,14 @@ src/Config/parameters.json
 ```json
 {
     "simpleOutputMiddleware": {
-        "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
+        "class": "LightApp\\Model\\Middleware\\SimpleOutputMiddleware",
         "inject": [
             "@controllerMiddleware@",
             "%defaultContentType%"
         ]
     },
     "controllerMiddleware": {
-        "class": "TinyAppBase\\Model\\Middleware\\ControllerMiddleware",
+        "class": "LightApp\\Model\\Middleware\\ControllerMiddleware",
         "inject": [
             "%routedController%",
             "%routedAction%"
@@ -96,9 +96,9 @@ src/Config/parameters.json
 <?php
 namespace MyApp\Controller;
 
-use TinyAppBase\Controller\ControllerInterface;
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\System\Response;
+use LightApp\Controller\ControllerInterface;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
 
 class MyController implements ControllerInterface
 {
@@ -157,7 +157,7 @@ if (empty($argv[1])) {
     echo 'Please specify command object name from dependencies as parameter' . PHP_EOL;
     exit;
 }
-echo (new TinyAppBase\Model\System\Project())->runCommand($argv[1]);
+echo (new LightApp\Model\System\Project())->runCommand($argv[1]);
 ```
 - include in `/src/Config/dependencies.json` an entry for it:
 ```json
@@ -175,8 +175,8 @@ echo (new TinyAppBase\Model\System\Project())->runCommand($argv[1]);
 <?php
 namespace MyApp\Model\Command;
 
-use TinyAppBase\Model\Command\CommandInterface;
-use TinyAppBase\Model\Command\CommandResult;
+use LightApp\Model\Command\CommandInterface;
+use LightApp\Model\Command\CommandResult;
 
 class MyCommand implements CommandInterface
 {
@@ -245,14 +245,14 @@ Options -Indexes
 ```json
 {
     "simpleOutputMiddleware": {
-        "class": "TinyAppBase\\Model\\Middleware\\SimpleOutputMiddleware",
+        "class": "LightApp\\Model\\Middleware\\SimpleOutputMiddleware",
         "inject": [
             "@securityMiddleware@",
             "%defaultContentType%"
         ]
     },
     "securityMiddleware": {
-        "class": "TinyAppBase\\Model\\Middleware\\SecurityMiddleware",
+        "class": "LightApp\\Model\\Middleware\\SecurityMiddleware",
         "inject": [
             "@controllerMiddleware@",
             "%securityList%",
@@ -323,10 +323,10 @@ public function restricted(Request $request) : Response
         ]
     },
     "sessionService": {
-        "class": "TinyAppBase\\Model\\Service\\SessionService"
+        "class": "LightApp\\Model\\Service\\SessionService"
     },
     "validatorFactory": {
-        "class": "TinyAppBase\\Model\\Validator\\ValidatorFactory",
+        "class": "LightApp\\Model\\Validator\\ValidatorFactory",
         "inject": [
             "@sessionService@"
         ]
@@ -345,11 +345,11 @@ public function restricted(Request $request) : Response
 <?php
 namespace MyApp\Controller;
 
-use TinyAppBase\Controller\ControllerInterface;
-use TinyAppBase\Model\Service\SessionService;
-use TinyAppBase\Model\Validator\ValidatorFactory;
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\System\Response;
+use LightApp\Controller\ControllerInterface;
+use LightApp\Model\Service\SessionService;
+use LightApp\Model\Validator\ValidatorFactory;
+use LightApp\Model\System\Request;
+use LightApp\Model\System\Response;
 use MyApp\Model\Validator\LoginValidator;
 
 class AuthenticationController implements ControllerInterface
@@ -418,8 +418,8 @@ class AuthenticationController implements ControllerInterface
 <?php
 namespace MyApp\Model\Validator;
 
-use TinyAppBase\Model\System\Request;
-use TinyAppBase\Model\Validator\RequestValidatorAbstract;
+use LightApp\Model\System\Request;
+use LightApp\Model\Validator\RequestValidatorAbstract;
 
 class LoginValidator extends RequestValidatorAbstract
 {

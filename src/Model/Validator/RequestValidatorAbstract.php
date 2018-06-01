@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace LightApp\Model\Validator;
 
-use LightApp\Model\Validator\ValidatorInterface;
 use LightApp\Model\Validator\ValidatorAbstract;
 use LightApp\Model\Validator\RequestValidatorInterface;
 use LightApp\Model\System\Request;

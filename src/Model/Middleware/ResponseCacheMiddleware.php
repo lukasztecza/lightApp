@@ -2,6 +2,7 @@
 namespace LightApp\Model\Middleware;
 
 use LightApp\Model\Middleware\MiddlewareAbstract;
+use LightApp\Model\Middleware\MiddlewareInterface;
 use LightApp\Model\System\Request;
 use LightApp\Model\System\Response;
 

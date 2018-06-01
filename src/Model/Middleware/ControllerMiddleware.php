@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace LightApp\Model\Middleware;
 
+use LightApp\Model\Middleware\MiddlewareAbstract;
 use LightApp\Controller\ControllerInterface;
 use LightApp\Model\System\Request;
 use LightApp\Model\System\Response;
-use LightApp\Model\Middleware\MiddlewareAbstract;
 
 class ControllerMiddleware extends MiddlewareAbstract
 {
