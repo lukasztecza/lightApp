@@ -123,7 +123,7 @@ localhost:8080/home
     "environment": "prod"
 }
 ```
-- it will store logs in `/tmp/logs/php-{date}.log` file instead of throwing errors to output and display error page
+- it will store sanitized logs in `/tmp/logs/php-{date}.log` and display error page on errors and exceptions
 
 ### Html output
 - if you want to use `text/html` by default change in `/src/Config/settings.json`:
