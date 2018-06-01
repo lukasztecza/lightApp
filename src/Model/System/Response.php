@@ -68,9 +68,10 @@ class Response
 
     private function escapeArray(int $counter, array &$array, string $keyString) : void
     {
-        foreach ($array as (string) $key => &$value) {
+        foreach ($array as $key => &$value) {
             $this->handleCounter($counter);
 
+            $key = (string) $key;
             $originalKey = $key;
             $this->sanitizeValue($key);
             if ($key !== $originalKey) {
