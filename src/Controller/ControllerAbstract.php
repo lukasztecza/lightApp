@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 namespace LightApp\Controller;
 
+use LightApp\Controller\ControllerInterface;
 use LightApp\Model\System\Request;
 use LightApp\Model\System\Response;
 
-abstract class ControllerAbstract
+abstract class ControllerAbstract implements ControllerInterface
 {
     protected function jsonResponse(array $variables, array $escapeRules = []) : Response
     {
