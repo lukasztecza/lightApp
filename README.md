@@ -96,11 +96,11 @@ src/Config/parameters.json
 <?php
 namespace MyApp\Controller;
 
-use LightApp\Controller\ControllerInterface;
+use LightApp\Controller\ControllerAbstract;
 use LightApp\Model\System\Request;
 use LightApp\Model\System\Response;
 
-class MyController implements ControllerInterface
+class MyController extends ControllerAbstract
 {
     public function home(Request $request) : Response
     {
@@ -147,6 +147,15 @@ return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'ht
 ```php
 return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'html'], ['Content-Type' => 'text/html']);
 ```
+- you can also force type of returned responses using build in controller methods:
+```
+jsonResponse
+htmlResponse
+redirectResponse
+codeResponse
+```
+- responses are by default sanitized to alphanumeric characters but you can force excape or raw output
+
 ### Running commands
 - if you want to run command line jobs create `/scripts/command.php` with the following content:
 ```php
