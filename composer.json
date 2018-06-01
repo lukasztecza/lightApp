@@ -1,5 +1,5 @@
 {
-    "name": "lukasztecza/tinyAppBase",
+    "name": "lukasztecza/lightApp",
     "description": "Light php application base",
     "keywords": ["php", "app", "framework", "base", "dependency"],
     "license": "MIT",
