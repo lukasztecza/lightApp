@@ -370,14 +370,14 @@ public function restricted(Request $request) : Response
 <?php
 namespace MyApp\Controller;
 
-use LightApp\Controller\ControllerInterface;
+use LightApp\Controller\ControllerAbstract;
 use LightApp\Model\Service\SessionService;
 use LightApp\Model\Validator\ValidatorFactory;
 use LightApp\Model\System\Request;
 use LightApp\Model\System\Response;
 use MyApp\Model\Validator\LoginValidator;
 
-class AuthenticationController implements ControllerInterface
+class AuthenticationController extends ControllerAbstract
 {
     private $sessionService;
     private $validatorFactory;
