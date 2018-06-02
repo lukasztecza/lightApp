@@ -12,16 +12,28 @@ class ResponseCest
             '/templates/home.php',
             [
                 'templateText' => '<p>Some text</p>',
-                'templateLinks' => [
-                    'link1' => 'someLink1',
-                    'link2' => 'someLink2',
-                    'link3' => 'someLink3'
+                'templateVars' => [
+                    'var1' => 'sanitize $% me',
+                    'var2' => 'leave @# raw',
+                    'var3' => 'another (& risk'
                 ]
         
             ],
-            ['templateText' => 'html'],
-            ['formParam' => '789'],
-            ['someCookie' => 654]
+            [
+                'templateText' => 'html',
+                'templateVars.var2' => 'raw'
+            ],
+            ['someHeader' => '654'],
+            [
+                [
+                    'name' => 'cookie1',
+                    'value' => 321
+                ],
+                [
+                    'name' => 'cookie2',
+                    'value' => 123
+                ]
+            ]
         );
     }
 
@@ -102,8 +114,45 @@ class ResponseCest
         ];
     }
 
-    public function getVariablesTest()
+    public function getFileTest(UnitTester $I)
     {
-        $this->response;//@TODO
+        $I->assertEquals($this->response->getFile(), '/templates/home.php');
+    }
+
+    public function getVariablesTest(UnitTester $I)
+    {
+        $variables = $this->response->getVariables(['templateText', 'templateVars.var2']);
+        $I->assertEquals($variables['templateText'], '<p>Some text</p>');
+        $I->assertEquals($variables['templateVars']['var1'], 'sanitizeme');
+        $I->assertEquals($variables['templateVars']['var2'], 'leave @# raw');
+    }
+
+    public function getHeadersTest(UnitTester $I)
+    {
+        $I->assertEquals($this->response->getHeaders(), ['someHeader' => '654']);
+    }
+
+    public function getCookiesTest(UnitTester $I)
+    {
+        $I->assertEquals($this->response->getCookies(), [
+            [
+                'name' => 'cookie1',
+                'value' => 321,
+                'expire' => 0,
+                'path' => '/',
+                'domain' => '',
+                'secure' => false,
+                'httponly' => true
+            ],
+            [
+                'name' => 'cookie2',
+                'value' => 123,
+                'expire' => 0,
+                'path' => '/',
+                'domain' => '',
+                'secure' => false,
+                'httponly' => true
+            ]
+        ]);
     }
 }
