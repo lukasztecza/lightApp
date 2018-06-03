@@ -190,7 +190,7 @@ echo (new LightApp\Model\System\Project())->runCommand($argv[1]);
     "myCommand": {
         "class": "MyApp\\Model\\Command\\MyCommand",
         "inject": [
-            "some variable"
+            "some value"
         ]
     }
 }
@@ -205,16 +205,16 @@ use LightApp\Model\Command\CommandResult;
 
 class MyCommand implements CommandInterface
 {
-    private $someVariable;
+    private $someValue;
 
-    public function __construct(string $someVariable)
+    public function __construct(string $someValue)
     {
-        $this->someVariable = $someVariable;
+        $this->someValue = $someValue;
     }
 
     public function execute() : CommandResult
     {
-        echo 'Passed variable is: ' . $this->someVariable . PHP_EOL;
+        echo 'Passed value is: ' . $this->someValue . PHP_EOL;
         return new CommandResult('success', 'everything went well');
     }
 }
