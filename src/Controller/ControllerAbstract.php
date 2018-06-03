@@ -19,7 +19,7 @@ abstract class ControllerAbstract implements ControllerInterface
 
     protected function redirectResponse(string $location) : Response
     {
-        return new Response(null, [], [], ['Location' => $string]);
+        return new Response(null, [], [], ['Location' => $location]);
     }
 
     protected function codeResponse(Request $request, int $code, string $contentType = null) : Response
