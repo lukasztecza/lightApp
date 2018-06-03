@@ -89,8 +89,8 @@ src/Config/parameters.json
     }
 }
 ```
-- wrap in `@` to inject other class to your class constructor
-- wrap in `%` to inject parameter specified in `src/Config/parameters.json` or `src/Config/settings.json`
+- wrap injection in `@` to inject other class to your class constructor
+- wrap injection in `%` to inject parameter specified in `src/Config/parameters.json` or `src/Config/settings.json`
 - create `/src/Controller/MyController.php` with the following content:
 ```php
 <?php
@@ -154,7 +154,7 @@ htmlResponse
 redirectResponse
 codeResponse
 ```
-- responses are by default sanitized to alphanumeric characters but you can force excape or raw output
+- responses are by default sanitized to alphanumeric characters but you can force escape or raw output
 - for instance for array:
 ```php
 $arr = [
