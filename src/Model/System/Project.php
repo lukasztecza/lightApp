@@ -24,7 +24,7 @@ class Project
         $parameters = $this->getParameters();
         $this->checkRequiredParameters($parameters);
 
-        $errorHandler = new ErrorHandler($parameters[self::PARAMETER_ENVIRONMENT], $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]);
+        $this->setErrorHandler($parameters);
 
         $request = $this->getRequest();
         $dependencies = $this->getDependencies($parameters, $request);
@@ -43,7 +43,8 @@ class Project
     {
         $parameters = $this->getParameters();
         $this->checkRequiredParameters($parameters);
-        $errorHandler = new ErrorHandler($parameters[self::PARAMETER_ENVIRONMENT]);
+
+        $this->setErrorHandler($parameters);
 
         $dependencies = $this->getDependencies($parameters);
         if (!isset($dependencies[$objectName]) || !class_exists($dependencies[$objectName]['class'])) {
@@ -66,6 +67,17 @@ class Project
         return ($commandResult->getStatus() ? 'Command succeded' : 'Command failed') .
             ' with message ' . $commandResult->getMessage() . PHP_EOL
         ;
+    }
+
+    protected function setErrorHandler(array $parameters) : void
+    {
+        new ErrorHandler($parameters[self::PARAMETER_ENVIRONMENT], $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]);
+    }
+
+    protected function getRequest() : Request
+    {
+        $routes = json_decode(file_get_contents(self::CONFIG_PATH . 'routes.json'), true);
+        return (new Router($routes))->buildRequest();
     }
 
     private function getParameters() : array
@@ -107,12 +119,6 @@ class Project
                 ' in parameters.json or settings.json, make sure you set these values'
             );
         }
-    }
-
-    private function getRequest() : Request
-    {
-        $routes = json_decode(file_get_contents(self::CONFIG_PATH . 'routes.json'), true);
-        return (new Router($routes))->buildRequest();
     }
 
     private function getDependencies(array $parameters, Request $request = null) : array

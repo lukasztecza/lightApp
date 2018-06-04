@@ -14,8 +14,7 @@ class ResponseCest
                 'templateText' => '<p>Some text</p>',
                 'templateVars' => [
                     'var1' => 'sanitize $% me',
-                    'var2' => 'leave @# raw',
-                    'var3' => 'another (& risk'
+                    'var2' => 'leave @# raw'
                 ]
         
             ],
