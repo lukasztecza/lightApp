@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace TinyApp\Model\Repository;
+namespace LightApp\Model\Repository;
 
 use LightApp\Model\Repository\DatabaseConnectionInterface;
 
