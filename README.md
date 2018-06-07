@@ -152,9 +152,9 @@ return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'ht
 return $this->jsonResponse(array $variables, array $escapeRules = [])
 return $this->htmlResponse(string $file, array $variables = [], array $escapeRules = [])
 return $this->redirectResponse(string $location)
-//this expects /src/View/errorCode.php to exist for text/html content type
 return $this->codeResponse(Request $request, int $code, string $contentType = null) 
 ```
+- `codeResponse` expects `/src/View/errorCode.php` to exist for `text/html` content type
 - responses are by default sanitized to alphanumeric characters but you can force escape or raw output
 - for instance for array:
 ```php
