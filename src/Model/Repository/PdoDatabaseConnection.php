@@ -46,7 +46,7 @@ class PdoDatabaseConnection implements DatabaseConnectionInterface
         return $return;
     }
 
-    public function execute(string $sql = null, $arguments) : string
+    public function execute(string $sql = null, array $arguments = []) : string
     {
         $this->checkStatement($sql);
         $this->statement->execute($arguments);
