@@ -26,7 +26,7 @@ class Project
 
         $this->setErrorHandler($parameters);
 
-        $request = $this->getRequest();
+        $request = $this->getRequest($parameters);
         $dependencies = $this->getDependencies($parameters, $request);
         $toCreate = [];
         $counter = 0;
@@ -75,10 +75,10 @@ class Project
         new ErrorHandler($parameters[self::PARAMETER_ENVIRONMENT], $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]);
     }
 
-    protected function getRequest() : Request
+    protected function getRequest(array $parameters) : Request
     {
         $routes = json_decode(file_get_contents(self::CONFIG_PATH . 'routes.json'), true);
-        return (new Router($routes))->buildRequest();
+        return (new Router($routes, $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]))->buildRequest();
     }
 
     private function getParameters() : array

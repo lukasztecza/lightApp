@@ -65,13 +65,14 @@ abstract class ControllerAbstract implements ControllerInterface
                 break;
         }
         $headers = [$request->getServerProtocol() . ' ' . $code . $message];
-        if ($contentType) {
-            $headers['Content-Type'] = $contentType;
+        if (is_null($contentType)) {
+            $contentType = $request->getDefaultContentType();
         }
 
+        $headers['Content-Type'] = $contentType;
         return new Response(
             ($contentType === 'text/html' ? 'errorCode.php' : null),
-            [],
+            ['code' => $code],
             [],
             $headers
         );
