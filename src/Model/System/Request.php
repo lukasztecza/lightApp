@@ -21,6 +21,7 @@ class Request
     private $server;
     private $routedController;
     private $routedAction;
+    private $defaultContentType;
 
     public function __construct(
         string $host,
@@ -35,7 +36,8 @@ class Request
         array $cookies,
         array $server,
         string $routedController,
-        string $routedAction
+        string $routedAction,
+        string $defaultContentType
     ) {
         $this->host = $host;
         $this->path = $path;
@@ -50,6 +52,7 @@ class Request
         $this->server = $server;
         $this->routedController = $routedController;
         $this->routedAction = $routedAction;
+        $this->defaultContentType = $defaultContentType;
     }
 
     public function getHost() : string
@@ -155,6 +158,11 @@ class Request
     public function getAction() : string
     {
         return $this->routedAction;
+    }
+
+    public function getDefaultContentType() : string
+    {
+        return $this->defaultContentType;
     }
 
     private function getFromArray(array $combinedKeys, array $arrayToFilter) : array

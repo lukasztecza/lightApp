@@ -6,10 +6,12 @@ use LightApp\Model\System\Request;
 class Router
 {
     private $routes;
+    private $defaultContentType;
 
-    public function __construct(array $routes)
+    public function __construct(array $routes, string $defaultContentType)
     {
         $this->routes = $routes;
+        $this->defaultContentType = $defaultContentType;
     }
 
     public function buildRequest() : Request
@@ -36,7 +38,8 @@ class Router
             $_COOKIE,
             $_SERVER,
             $this->routes[$routeKey]['controller'],
-            $this->routes[$routeKey]['action']
+            $this->routes[$routeKey]['action'],
+            $this->defaultContentType
         );
 
         return $request;
