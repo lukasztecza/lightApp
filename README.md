@@ -149,10 +149,11 @@ return new Response('home.php', ['message' => 'Hello world!'], ['message' => 'ht
 ```
 - you can also force type of returned responses using build in controller methods:
 ```php
-jsonResponse(array $variables, array $escapeRules = [])
-htmlResponse(string $file, array $variables = [], array $escapeRules = [])
-redirectResponse(string $location)
-codeResponse(Request $request, int $code, string $contentType = null) //needs /src/View/errorCode.php for text/html
+return $this->jsonResponse(array $variables, array $escapeRules = [])
+return $this->htmlResponse(string $file, array $variables = [], array $escapeRules = [])
+return $this->redirectResponse(string $location)
+//this expects /src/View/errorCode.php to exist for text/html content type
+return $this->codeResponse(Request $request, int $code, string $contentType = null) 
 ```
 - responses are by default sanitized to alphanumeric characters but you can force escape or raw output
 - for instance for array:
