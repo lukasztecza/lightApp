@@ -29,7 +29,8 @@ class Project
         $request = $this->getRequest();
         $dependencies = $this->getDependencies($parameters, $request);
         $toCreate = [];
-        $this->analyseInjections(0, $dependencies, $toCreate, $parameters[self::PARAMETER_APPLICATION_STARTING_POINT]);
+        $counter = 0;
+        $this->analyseInjections($counter, $dependencies, $toCreate, $parameters[self::PARAMETER_APPLICATION_STARTING_POINT]);
         $toCreate = array_values($toCreate);
 
         $this->inject($dependencies, $toCreate);
@@ -170,11 +171,11 @@ class Project
             $replacements['%' . $placeholder . '%'] = $value;
         }
 
-        foreach ($dependencies as &$dependency) {
+        foreach ($dependencies as $key => $dependency) {
             if (isset($dependency['inject'])) {
-                foreach ($dependency['inject'] as &$inject) {
+                foreach ($dependencies[$key]['inject'] as $subKey => $inject) {
                     if (isset($replacements[$inject])) {
-                        $inject = $replacements[$inject];
+                        $dependencies[$key]['inject'][$subKey] = $replacements[$inject];
                     }
                 }
             }
@@ -183,7 +184,7 @@ class Project
         return $dependencies;
     }
 
-    private function analyseInjections(int $counter, array $dependencies, array &$toCreate, string $name) : void
+    private function analyseInjections(int &$counter, array $dependencies, array &$toCreate, string $name) : void
     {
         $counter++;
         if ($counter > 1000) {
@@ -216,9 +217,9 @@ class Project
         while ($index--) {
             if (empty($dependencies[$toCreate[$index]]['object'])) {
                 if (isset($dependencies[$toCreate[$index]]['inject'])) {
-                    foreach ($dependencies[$toCreate[$index]]['inject'] as &$injection) {
+                    foreach ($dependencies[$toCreate[$index]]['inject'] as $key => $injection) {
                         if (is_string($injection) && strpos($injection, '@') === 0) {
-                            $injection = $dependencies[trim($injection, '@')]['object'];
+                            $dependencies[$toCreate[$index]]['inject'][$key] = $dependencies[trim($injection, '@')]['object'];
                         }
                     }
                 }

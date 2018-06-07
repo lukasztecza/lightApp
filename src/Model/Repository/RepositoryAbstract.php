@@ -42,7 +42,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
         return 0;
     }
 
-    protected function getInPlaceholdersIncludingParams(array $values, array &$params) : string
+    protected function getInPlaceholdersAndAddParams(array $values, array &$params) : string
     {
         $placeholders = [];
         foreach ($values as $value) {

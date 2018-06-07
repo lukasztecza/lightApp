@@ -16,7 +16,6 @@ class ResponseCest
                     'var1' => 'sanitize $% me',
                     'var2' => 'leave @# raw'
                 ]
-        
             ],
             [
                 'templateText' => 'html',
@@ -55,7 +54,7 @@ class ResponseCest
         return [
             ['/directory/path.php', '/directory/path.php'],
             ['/fileonly.php', '/fileonly.php'],
-            ['/../cofig.php', '/cofig.php']
+            ['/../config.php', '/config.php']
         ];
     }
 
@@ -71,9 +70,10 @@ class ResponseCest
 
     private function urlEscapeValueProvider()
     {
-        return [
-            ['http://www.somesite.com?one=1&two=2&multi[]=some&multi=another', 'http%3A%2F%2Fwww.somesite.com%3Fone%3D1%26two%3D2%26multi%5B%5D%3Dsome%26multi%3Danother']
-        ];
+        return [[
+            'http://www.somesite.com?one=1&two=2&multi[]=some&multi=another',
+            'http%3A%2F%2Fwww.somesite.com%3Fone%3D1%26two%3D2%26multi%5B%5D%3Dsome%26multi%3Danother'
+        ]];
     }
 
     /**

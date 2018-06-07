@@ -38,7 +38,8 @@ class Response
     public function getVariables() : array
     {
         $variables = $this->variables;
-        $this->escapeArray(0, $variables, '');
+        $counter = 0;
+        $this->escapeArray($counter, $variables, '');
 
         return $variables;
     }
@@ -51,24 +52,24 @@ class Response
     public function getCookies() : array
     {
         $cookies = $this->cookies;
-        foreach ($cookies as &$cookie) {
+        foreach ($cookies as $key => $cookie) {
             if (empty($cookie['name']) || empty($cookie['value'])) {
                 throw new \Exception('Cookie name and value is required ' . var_export($cookie, true));
             }
 
-            $cookie['expire'] = $cookie['expire'] ?? 0;
-            $cookie['path'] = $cookie['path'] ?? '/';
-            $cookie['domain'] = $cookie['domain'] ?? '';
-            $cookie['secure']  = $cookie['secure'] ?? false;
-            $cookie['httponly'] = $cookie['httponly'] ?? true;
+            $cookies[$key]['expire'] = $cookie['expire'] ?? 0;
+            $cookies[$key]['path'] = $cookie['path'] ?? '/';
+            $cookies[$key]['domain'] = $cookie['domain'] ?? '';
+            $cookies[$key]['secure']  = $cookie['secure'] ?? false;
+            $cookies[$key]['httponly'] = $cookie['httponly'] ?? true;
         }
 
         return $cookies;
     }
 
-    private function escapeArray(int $counter, array &$array, string $keyString) : void
+    private function escapeArray(int &$counter, array &$array, string $keyString) : void
     {
-        foreach ($array as $key => &$value) {
+        foreach ($array as $key => $value) {
             $this->handleCounter($counter);
 
             $key = (string) $key;
@@ -87,10 +88,10 @@ class Response
 
             $currentKeyString = empty($keyString) ? $key : $keyString . '.' . $key;
             if (is_string($value) || is_numeric($value)) {
-                $this->selectAndApplyRuleForValue($value, $currentKeyString);
+                $this->selectAndApplyRuleForValue($array[$key], $currentKeyString);
             }
             if (is_array($value)) {
-                $this->escapeArray($counter, $value, $currentKeyString);
+                $this->escapeArray($counter, $array[$key], $currentKeyString);
             }
         }
     }
