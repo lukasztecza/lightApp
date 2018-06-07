@@ -15,8 +15,7 @@ class ResponseCest
                 'templateVars' => [
                     'var1' => 'sanitize $% me',
                     'var2' => 'leave @# raw'
-                ],
-                '$@' => 'wrong key'
+                ]
             ],
             [
                 'templateText' => 'html',
