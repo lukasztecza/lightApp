@@ -34,7 +34,8 @@ class RequestCest
             ['someCookie' => 654],
             ['HTTP_X_REQUESTED_WITH' => 'xmlhttprequest', 'SERVER_PROTOCOL' => 'HTTP 1.0'],
             'someController',
-            'someAction'
+            'someAction',
+            'text/html'
         );
     }
 
@@ -157,5 +158,10 @@ class RequestCest
     public function getActionTest(UnitTester $I)
     {
         $I->assertEquals($this->request->getAction(), 'someAction');
+    }
+
+    public function getDefaultContentTypeTest(UnitTester $I)
+    {
+        $I->assertEquals($this->request->getDefaultContentType(), 'text/html');
     }
 }

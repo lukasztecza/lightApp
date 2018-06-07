@@ -29,7 +29,7 @@ class RouterCest
                 'controller'=> 'itemsController',
                 'action'=> 'modify'
             ]
-        ]);
+        ], 'text/html');
     }
 
     public function _after()
