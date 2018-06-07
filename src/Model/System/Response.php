@@ -88,6 +88,7 @@ class Response
 
             $currentKeyString = empty($keyString) ? $key : $keyString . '.' . $key;
             if (is_string($value) || is_numeric($value)) {
+                $array[$key] = (string) $value;
                 $this->selectAndApplyRuleForValue($array[$key], $currentKeyString);
             }
             if (is_array($value)) {
