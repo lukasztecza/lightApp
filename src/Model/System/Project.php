@@ -55,7 +55,8 @@ class Project
             );
         }
         $toCreate = [];
-        $this->analyseInjections(0, $dependencies, $toCreate, $objectName);
+        $counter = 0;
+        $this->analyseInjections($counter, $dependencies, $toCreate, $objectName);
         $toCreate = array_values($toCreate);
 
         $this->inject($dependencies, $toCreate);
