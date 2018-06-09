@@ -36,7 +36,8 @@ abstract class RepositoryAbstract implements RepositoryInterface
         $total = $this->read->fetch($sql, $arguments);
         if (!empty($total[0]['count'])) {
             $pages = $total[0]['count'] / $perPage;
-            return (int) $pages < $pages ? $pages + 1 : $pages;
+            $intPages = (int) $pages;
+            return $intPages < $pages ? $intPages + 1 : $intPages;
         }
 
         return 0;
