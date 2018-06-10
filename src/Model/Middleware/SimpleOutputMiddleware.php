@@ -26,6 +26,11 @@ class SimpleOutputMiddleware extends MiddlewareAbstract
     public function process(Request $request) : Response
     {
         $response = $this->getNext()->process($request);
+        return $this->handleResponse($response);
+    }
+
+    protected function handleResponse(Response $response) : Response
+    {
         $headers = $response->getHeaders();
         $headers['Content-Type'] = $headers['Content-Type'] ?? $this->defaultContentType;
         $location = $headers['Location'] ?? null;
