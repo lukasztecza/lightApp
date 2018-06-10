@@ -9,9 +9,9 @@ class ErrorHandlerCest
 
     public function _before()
     {
-        define('APP_ROOT_DIR', __DIR__ . '/../../../_data');
+        defined('APP_ROOT_DIR') || define('APP_ROOT_DIR', __DIR__ . '/../../../_data');
         $this->errorHandler = new ErrorHandler(
-            'prod',
+            'dev',
             'application/json'
         );
         $this->tmpDir = APP_ROOT_DIR . '/tmp';
