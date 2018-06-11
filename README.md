@@ -41,7 +41,6 @@ include(APP_ROOT_DIR . '/vendor/autoload.php');
 - create `/.gitignore` with the following content:
 ```bash
 src/Config/parameters.json
-
 ```
 - create `/src/Config/parameters.json` which should contain sensitive data with the following content:
 ```json
