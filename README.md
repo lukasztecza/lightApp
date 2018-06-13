@@ -475,3 +475,6 @@ class LoginValidator extends RequestValidatorAbstract
 - now if you navigate to `localhost:8080/restricted` you will be redirected to `localhost:8080/login`
 - form submissions are by default validated by checking origin and csrf token before calling `validate`
 - navigate to `localhost:8080/logout` to logout
+
+### Sample application
+- see sample application that uses lightApp [phpSample](https://github.com/lukasztecza/phpSample)
