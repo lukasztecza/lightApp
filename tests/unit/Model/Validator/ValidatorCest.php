@@ -37,7 +37,7 @@ class ValidatorCest
             [],
             'POST',
             [],
-            ['formParam' => '123', 'csrfToken' => $this->csrfToken],
+            ['formParam' => 123, 'csrfToken' => $this->csrfToken],
             [],
             '',
             [],
@@ -52,7 +52,7 @@ class ValidatorCest
 
     public function testArrayValidator(UnitTester $I)
     {
-        $I->assertEquals(true, $this->sampleArrayValidator->check(['someParam' => 123]));
+        $I->assertEquals(true, $this->sampleArrayValidator->check(['someParam' => 'abc']));
     }
 }
 
@@ -60,8 +60,7 @@ class SampleRequestValidator extends RequestValidatorAbstract
 {
     protected function validate(Request $request) : bool
     {
-        $request->getPayload();
-        return true;
+        return $request->getPayload(['formParam'])['formParam'] === 123;
     }
 }
 
@@ -69,6 +68,6 @@ class SampleArrayValidator extends ArrayValidatorAbstract
 {
     public function check(array $values) : bool
     {
-        return $values['someParam'] === 123;
+        return $values['someParam'] === 'abc';
     }
 }
