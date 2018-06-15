@@ -33,7 +33,6 @@ abstract class RequestValidatorAbstract extends ValidatorAbstract implements Req
                     $httpOrigin = null;
                     break;
             }
-
             if (strpos($request->getHost(), $httpOrigin) !== 0) {
                 $this->error = 'Origin is not valid';
 

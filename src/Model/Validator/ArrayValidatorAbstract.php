@@ -6,5 +6,5 @@ use LightApp\Model\Validator\ArrayValidatorInterface;
 
 abstract class ArrayValidatorAbstract extends ValidatorAbstract implements ArrayValidatorInterface
 {
-    abstract public function check(array $values) : bool
+    abstract public function check(array $values) : bool;
 }
