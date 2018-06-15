@@ -5,6 +5,7 @@ use LightApp\Model\System\Request;
 use Codeception\Example;
 use LightApp\Model\Validator\RequestValidatorAbstract;
 use LightApp\Model\Validator\ArrayValidatorAbstract;
+use Codeception\Stub;
 
 class ValidatorCest
 {
@@ -14,10 +15,14 @@ class ValidatorCest
 
     public function _before()
     {
-        defined('APP_ROOT_DIR') || define('APP_ROOT_DIR', __DIR__ . '/../../../_data');
-        $this->tmpDir = APP_ROOT_DIR . '/tmp';
+        $sessionServiceMock = Stub::makeEmpty(
+            SessionService::class,
+            [
+                'get' => ['csrfToken' => 'someToken']
+            ]
+        );
 
-        $validatorFactory = new ValidatorFactory(new SessionService());
+        $validatorFactory = new ValidatorFactory($sessionServiceMock);
         $this->sampleRequestValidator = $validatorFactory->create(SampleRequestValidator::class);
         $this->csrfToken = $this->sampleRequestValidator->getCsrfToken();
         $this->sampleArrayValidator = $validatorFactory->create(SampleArrayValidator::class);
@@ -25,7 +30,6 @@ class ValidatorCest
 
     public function _after(UnitTester $I)
     {
-        $I->removeDirRecursively($this->tmpDir);
     }
 
     public function testRequestValidator(UnitTester $I)
