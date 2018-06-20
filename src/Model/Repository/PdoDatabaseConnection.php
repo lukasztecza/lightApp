@@ -19,7 +19,7 @@ class PdoDatabaseConnection implements DatabaseConnectionInterface
             $this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\Throwable $e) {
-            throw new \Excpetion('Could not create pdo connection');
+            throw new \Exception('Could not create pdo connection');
         }
     }
 
