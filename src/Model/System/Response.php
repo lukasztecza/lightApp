@@ -100,7 +100,7 @@ class Response
     private function handleCounter(int &$counter) : void
     {
         $counter++;
-        if (1000 < $counter) {
+        if (10000 < $counter) {
             throw new \Exception('Too big or deep array or danger of infinite recurrence, reached counter ' . var_export($counter, true));
         }
     }
