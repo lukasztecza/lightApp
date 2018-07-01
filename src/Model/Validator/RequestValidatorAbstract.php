@@ -9,9 +9,10 @@ abstract class RequestValidatorAbstract extends ValidatorAbstract implements Req
 {
     private $csrfToken;
 
-    public function __construct(string $csrfToken)
+    public function __construct(string $csrfToken, array $params)
     {
         $this->csrfToken = $csrfToken;
+        parent::__construct($params);
     }
 
     final public function check(Request $request, $checkOrigin = true, $checkCsrfToken = true) : bool

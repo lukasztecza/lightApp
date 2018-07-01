@@ -19,7 +19,7 @@ class ValidatorFactory
         $this->validators = [];
     }
 
-    public function create(string $class) : ValidatorInterface
+    public function create(string $class, array $params = []) : ValidatorInterface
     {
         $classInterfaces = class_implements($class);
         $requestValidator = in_array(RequestValidatorInterface::class, $classInterfaces);
@@ -32,9 +32,9 @@ class ValidatorFactory
 
         if (!isset($this->validators[$class])) {
             if ($requestValidator) {
-                $this->validators[$class] = new $class($this->csrfToken);
+                $this->validators[$class] = new $class($this->csrfToken, $params);
             } else {
-                $this->validators[$class] = new $class();
+                $this->validators[$class] = new $class($params);
             }
         }
 

@@ -6,6 +6,12 @@ use LightApp\Model\Validator\ValidatorInterface;
 abstract class ValidatorAbstract implements ValidatorInterface
 {
     protected $error = '';
+    protected $params;
+
+    public function __construct($params)
+    {
+        $this->params = $params;
+    }
 
     public function getError() : string
     {
