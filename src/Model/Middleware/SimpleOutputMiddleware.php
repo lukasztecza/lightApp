@@ -53,6 +53,11 @@ class SimpleOutputMiddleware extends MiddlewareAbstract
         return $response;
     }
 
+    protected function addDefaultHeaders(array &$headers) : void
+    {
+        $headers['Content-Security-Policy'] = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'";
+    }
+
     protected function setHeaders(array $headers) : void
     {
         foreach ($headers as $key => $value) {
@@ -91,7 +96,7 @@ class SimpleOutputMiddleware extends MiddlewareAbstract
             throw new \Exception('Template does not exist ' . var_export($template, true));
         }
 
-        $headers['Content-Security-Policy'] = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'";
+        $this->addDefaultHeaders($headers);
         $this->setHeaders($headers);
         $this->setCookies($cookies);
 
