@@ -21,7 +21,7 @@ Minimal application skeleton based on middleware, dependancy injection and model
         {
             "type": "vcs",
             "url": "https://github.com/lukasztecza/lightApp"
-       }
+        }
     ],
     "require": {
         "lukasztecza/lightApp": "dev-master"
