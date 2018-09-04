@@ -120,8 +120,9 @@ class Request
         return !empty($combinedKeys) ? $this->getFromArray($combinedKeys, $files) : $files;
     }
 
-    public function getInput(array $combinedKeys = [], string $type = static::DEFAULT_INPUT_TYPE) : array
+    public function getInput(array $combinedKeys = [], string $type = null) : array
     {
+        $type = $type ?? static::DEFAULT_INPUT_TYPE;
         switch ($type) {
             case static::INPUT_TYPE_QUERY:
                 parse_str($this->input, $input);
