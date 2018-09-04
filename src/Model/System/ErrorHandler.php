@@ -3,10 +3,10 @@ namespace LightApp\Model\System;
 
 class ErrorHandler
 {
-    private const CONTENT_TYPE_JSON = 'application/json';
-    private const CONTENT_TYPE_HTML = 'text/html';
-    private const LOGS_PATH = APP_ROOT_DIR . '/tmp/logs';
-    private const PRODUCTION_ENVIRONMENT = 'prod';
+    protected const CONTENT_TYPE_JSON = 'application/json';
+    protected const CONTENT_TYPE_HTML = 'text/html';
+    protected const LOGS_PATH = APP_ROOT_DIR . '/tmp/logs';
+    protected const PRODUCTION_ENVIRONMENT = 'prod';
 
     private $defaultContentType;
 
@@ -14,7 +14,7 @@ class ErrorHandler
     {
         $this->defaultContentType = $defaultContentType;
 
-        if (self::PRODUCTION_ENVIRONMENT === $environment) {
+        if (static::PRODUCTION_ENVIRONMENT === $environment) {
             error_reporting(E_ALL & ~E_USER_NOTICE);
             set_error_handler([$this, 'handleError']);
             set_exception_handler([$this, 'handleException']);
@@ -61,11 +61,11 @@ class ErrorHandler
         $message = json_encode($message);
         $message = preg_replace(['/[^a-zA-Z0-9 ]/', '/_{1,}/'], '_', $message);
 
-        if (!file_exists(self::LOGS_PATH)) {
-            mkdir(self::LOGS_PATH, 0775, true);
+        if (!file_exists(static::LOGS_PATH)) {
+            mkdir(static::LOGS_PATH, 0775, true);
         }
         file_put_contents(
-            self::LOGS_PATH . '/' . 'php-' . date('Y-m-d') . '.log',
+            static::LOGS_PATH . '/' . 'php-' . date('Y-m-d') . '.log',
             date('Y-m-d H:i:s') . ' | ' . $reason .  ' | code: ' . $type . ' | file: ' . $file . ' | line: ' . $line .
             ' | with message: ' . $message . PHP_EOL . PHP_EOL,
             FILE_APPEND | LOCK_EX
@@ -75,11 +75,11 @@ class ErrorHandler
     protected function displayErorPage(int $code = null) : void
     {
         switch ($this->defaultContentType) {
-            case self::CONTENT_TYPE_JSON:
+            case static::CONTENT_TYPE_JSON:
                 header('Content-Type: application/json');
                 echo json_encode(['status' => 'error', 'code' => $code]);
                 break;
-            case self::CONTENT_TYPE_HTML:
+            case static::CONTENT_TYPE_HTML:
                 echo
                     '<!Doctype html>' .
                     '<html>' .

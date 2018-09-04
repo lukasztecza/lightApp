@@ -10,14 +10,14 @@ use LightApp\Model\Command\CommandInterface;
 
 class Project
 {
-    private const PARAMETER_ENVIRONMENT = 'environment';
-    private const PARAMETER_DEFAULT_CONTENT_TYPE = 'defaultContentType';
-    private const PARAMETER_APPLICATION_STARTING_POINT = 'applicationStartingPoint';
+    protected const PARAMETER_ENVIRONMENT = 'environment';
+    protected const PARAMETER_DEFAULT_CONTENT_TYPE = 'defaultContentType';
+    protected const PARAMETER_APPLICATION_STARTING_POINT = 'applicationStartingPoint';
 
-    private const ROUTED_CONTROLLER_PLACEHOLDER = '%routedController%';
-    private const ROUTED_ACTION_PLACEHOLDER = '%routedAction%';
+    protected const ROUTED_CONTROLLER_PLACEHOLDER = '%routedController%';
+    protected const ROUTED_ACTION_PLACEHOLDER = '%routedAction%';
 
-    private const CONFIG_PATH = APP_ROOT_DIR . '/src/Config/';
+    protected const CONFIG_PATH = APP_ROOT_DIR . '/src/Config/';
 
     public function run() : void
     {
@@ -30,14 +30,14 @@ class Project
         $dependencies = $this->getDependencies($parameters, $request);
         $toCreate = [];
         $counter = 0;
-        $this->analyseInjections($counter, $dependencies, $toCreate, $parameters[self::PARAMETER_APPLICATION_STARTING_POINT]);
+        $this->analyseInjections($counter, $dependencies, $toCreate, $parameters[static::PARAMETER_APPLICATION_STARTING_POINT]);
         $toCreate = array_values($toCreate);
 
         $this->inject($dependencies, $toCreate);
-        if (!($dependencies[$parameters[self::PARAMETER_APPLICATION_STARTING_POINT]]['object'] instanceof MiddlewareInterface)) {
+        if (!($dependencies[$parameters[static::PARAMETER_APPLICATION_STARTING_POINT]]['object'] instanceof MiddlewareInterface)) {
             throw new \Exception('Application middleware has to implement ' . MiddlewareInterface::class);
         }
-        $dependencies[$parameters[self::PARAMETER_APPLICATION_STARTING_POINT]]['object']->process($request);
+        $dependencies[$parameters[static::PARAMETER_APPLICATION_STARTING_POINT]]['object']->process($request);
     }
 
     public function runCommand(string $objectName) : string
@@ -73,23 +73,23 @@ class Project
 
     protected function setErrorHandler(array $parameters) : void
     {
-        new ErrorHandler($parameters[self::PARAMETER_ENVIRONMENT], $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]);
+        new ErrorHandler($parameters[static::PARAMETER_ENVIRONMENT], $parameters[static::PARAMETER_DEFAULT_CONTENT_TYPE]);
     }
 
     protected function getRequest(array $parameters) : Request
     {
-        $routes = json_decode(file_get_contents(self::CONFIG_PATH . 'routes.json'), true);
-        return (new Router($routes, $parameters[self::PARAMETER_DEFAULT_CONTENT_TYPE]))->buildRequest();
+        $routes = json_decode(file_get_contents(static::CONFIG_PATH . 'routes.json'), true);
+        return (new Router($routes, $parameters[static::PARAMETER_DEFAULT_CONTENT_TYPE]))->buildRequest();
     }
 
     private function getParameters() : array
     {
-        if (!file_exists(self::CONFIG_PATH . 'parameters.json')) {
-            throw new \Exception('Could not find parameters.json file in ' . self::CONFIG_PATH);
+        if (!file_exists(static::CONFIG_PATH . 'parameters.json')) {
+            throw new \Exception('Could not find parameters.json file in ' . static::CONFIG_PATH);
         }
 
-        $parameters = json_decode(file_get_contents(self::CONFIG_PATH . 'parameters.json'), true);
-        $settings = file_get_contents(self::CONFIG_PATH . 'settings.json');
+        $parameters = json_decode(file_get_contents(static::CONFIG_PATH . 'parameters.json'), true);
+        $settings = file_get_contents(static::CONFIG_PATH . 'settings.json');
 
         foreach ($parameters as $key => $parameter) {
             if (!is_int($parameter) && !is_string($parameter) && !is_float($parameter) && !is_bool($parameter)) {
@@ -109,15 +109,15 @@ class Project
     private function checkRequiredParameters(array $parameters) : void
     {
         if (
-            !array_key_exists(self::PARAMETER_ENVIRONMENT, $parameters) ||
-            !array_key_exists(self::PARAMETER_DEFAULT_CONTENT_TYPE, $parameters) ||
-            !array_key_exists(self::PARAMETER_APPLICATION_STARTING_POINT, $parameters)
+            !array_key_exists(static::PARAMETER_ENVIRONMENT, $parameters) ||
+            !array_key_exists(static::PARAMETER_DEFAULT_CONTENT_TYPE, $parameters) ||
+            !array_key_exists(static::PARAMETER_APPLICATION_STARTING_POINT, $parameters)
         ) {
             throw new \Exception(
                 'Could not find ' .
-                self::PARAMETER_ENVIRONMENT . ' placeholder or ' .
-                self::PARAMETER_DEFAULT_CONTENT_TYPE . ' placeholder or ' .
-                self::PARAMETER_APPLICATION_STARTING_POINT . ' placeholder ' .
+                static::PARAMETER_ENVIRONMENT . ' placeholder or ' .
+                static::PARAMETER_DEFAULT_CONTENT_TYPE . ' placeholder or ' .
+                static::PARAMETER_APPLICATION_STARTING_POINT . ' placeholder ' .
                 ' in parameters.json or settings.json, make sure you set these values'
             );
         }
@@ -125,7 +125,7 @@ class Project
 
     private function getDependencies(array $parameters, Request $request = null) : array
     {
-        $dependencies = file_get_contents(self::CONFIG_PATH . 'dependencies.json');
+        $dependencies = file_get_contents(static::CONFIG_PATH . 'dependencies.json');
         $this->checkRequiredPlaceholders($dependencies, $parameters);
 
         $dependencies = json_decode($dependencies, true);
@@ -139,23 +139,23 @@ class Project
     private function checkRequiredPlaceholders(string $dependencies, array $parameters) : void
     {
         if (
-            !strpos($dependencies, self::ROUTED_CONTROLLER_PLACEHOLDER) ||
-            !strpos($dependencies, self::ROUTED_ACTION_PLACEHOLDER)
+            !strpos($dependencies, static::ROUTED_CONTROLLER_PLACEHOLDER) ||
+            !strpos($dependencies, static::ROUTED_ACTION_PLACEHOLDER)
         ) {
             throw new \Exception(
                 'Could not find ' .
-                self::ROUTED_CONTROLLER_PLACEHOLDER . ' placeholder or ' .
-                self::ROUTED_ACTION_PLACEHOLDER . ' placeholder in dependencies.json' .
+                static::ROUTED_CONTROLLER_PLACEHOLDER . ' placeholder or ' .
+                static::ROUTED_ACTION_PLACEHOLDER . ' placeholder in dependencies.json' .
                 ' make sure you set these values as dependencies of object responsible for handling them'
             );
         }
 
         if(
-            !strpos($dependencies, $parameters[self::PARAMETER_APPLICATION_STARTING_POINT])
+            !strpos($dependencies, $parameters[static::PARAMETER_APPLICATION_STARTING_POINT])
         ) {
             throw new \Exception(
                 'Could not find ' .
-                self::PARAMETER_APPLICATION_STARTING_POINT . ' value in dependencies.json,' .
+                static::PARAMETER_APPLICATION_STARTING_POINT . ' value in dependencies.json,' .
                 ' make sure you specify it as one of the dependencies'
             );
         }
@@ -164,8 +164,8 @@ class Project
     private function replacePlaceholders(array $dependencies, array $parameters, Request $request = null) : array
     {
         if ($request) {
-            $replacements[self::ROUTED_CONTROLLER_PLACEHOLDER] = '@' . $request->getController() . '@';
-            $replacements[self::ROUTED_ACTION_PLACEHOLDER] = $request->getAction();
+            $replacements[static::ROUTED_CONTROLLER_PLACEHOLDER] = '@' . $request->getController() . '@';
+            $replacements[static::ROUTED_ACTION_PLACEHOLDER] = $request->getAction();
         }
 
         foreach ($parameters as $placeholder => $value) {
