@@ -3,10 +3,10 @@ namespace LightApp\Model\System;
 
 class Request
 {
-    private const DEFAULT_INPUT_TYPE = 'query';
+    protected const DEFAULT_INPUT_TYPE = 'query';
 
-    private const INPUT_TYPE_QUERY = 'query';
-    private const INPUT_TYPE_JSON = 'json';
+    protected const INPUT_TYPE_QUERY = 'query';
+    protected const INPUT_TYPE_JSON = 'json';
 
     private $host;
     private $path;
@@ -120,13 +120,13 @@ class Request
         return !empty($combinedKeys) ? $this->getFromArray($combinedKeys, $files) : $files;
     }
 
-    public function getInput(array $combinedKeys = [], string $type = self::DEFAULT_INPUT_TYPE) : array
+    public function getInput(array $combinedKeys = [], string $type = static::DEFAULT_INPUT_TYPE) : array
     {
         switch ($type) {
-            case self::INPUT_TYPE_QUERY:
+            case static::INPUT_TYPE_QUERY:
                 parse_str($this->input, $input);
                 break;
-            case self::INPUT_TYPE_JSON:
+            case static::INPUT_TYPE_JSON:
                 $input = json_decode($this->input, true);
                 break;
             default:

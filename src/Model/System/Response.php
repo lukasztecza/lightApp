@@ -3,15 +3,15 @@ namespace LightApp\Model\System;
 
 class Response
 {
-    private const DEFAULT_RULE = 'sanitize';
+    protected const DEFAULT_RULE = 'sanitize';
 
-    private const SANITIZE = 'sanitize';
-    private const HTML_ESCAPE = 'html';
-    private const URL_ESCAPE = 'url';
-    private const FILE_ESCAPE = 'file';
-    private const NO_ESCAPE = 'raw';
+    protected const SANITIZE = 'sanitize';
+    protected const HTML_ESCAPE = 'html';
+    protected const URL_ESCAPE = 'url';
+    protected const FILE_ESCAPE = 'file';
+    protected const NO_ESCAPE = 'raw';
 
-    private const ALLOWED_HTML_TAGS = ['h3', 'p', 'i', 'b', 'table', 'tr', 'th', 'td', 'ul', 'ol', 'li'];
+    protected const ALLOWED_HTML_TAGS = ['h3', 'p', 'i', 'b', 'table', 'tr', 'th', 'td', 'ul', 'ol', 'li'];
 
     private $file;
     private $variables;
@@ -107,7 +107,7 @@ class Response
 
     private function selectAndApplyRuleForValue(string &$value, string $currentKeyString) : void
     {
-        $selectedRule = self::DEFAULT_RULE;
+        $selectedRule = static::DEFAULT_RULE;
         foreach ($this->rules as $ruleKeyString => $rule) {
             if (strpos($currentKeyString, $ruleKeyString) === 0) {
                 $selectedRule = $rule;
@@ -117,19 +117,19 @@ class Response
         }
 
         switch($selectedRule) {
-            case self::SANITIZE:
+            case static::SANITIZE:
                 $this->sanitizeValue($value);
                 break;
-            case self::HTML_ESCAPE:
+            case static::HTML_ESCAPE:
                 $this->htmlEscapeValue($value);
                 break;
-            case self::URL_ESCAPE:
+            case static::URL_ESCAPE:
                 $this->urlEscapeValue($value);
                 break;
-            case self::FILE_ESCAPE:
+            case static::FILE_ESCAPE:
                 $this->fileEscapeValue($value);
                 break;
-            case self::NO_ESCAPE:
+            case static::NO_ESCAPE:
                 break;
             default:
                 throw new \Exception('Not supported escape/sanitize rule ' . $selectedRule);
@@ -146,7 +146,7 @@ class Response
         $value = htmlspecialchars($value, ENT_QUOTES);
 
         $patterns = $replacements = [];
-        foreach (self::ALLOWED_HTML_TAGS as $tag) {
+        foreach (static::ALLOWED_HTML_TAGS as $tag) {
             $patterns[] = '/&lt;' . $tag . '&gt;/';
             $patterns[] = '/&lt;\/' . $tag . '&gt;/';
             $replacements[] = '<' . $tag . '>';
