@@ -22,7 +22,7 @@ class SessionService
         if (PHP_SESSION_ACTIVE !== session_status()) {
             session_start();
         }
-        session_regenerate_id();
+        session_regenerate_id(true);
     }
 
     public function get(array $keys = [], bool $destroy = false) : array
